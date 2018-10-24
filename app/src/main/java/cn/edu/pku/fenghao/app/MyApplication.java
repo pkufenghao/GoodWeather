@@ -3,6 +3,7 @@ package cn.edu.pku.fenghao.app;
 import android.app.Application;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ListView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +22,10 @@ public class MyApplication extends Application{
     private CityDB mCityDB;
 
     private List<City> mCityList;
+
+    private ListView mlistView;
+
+
 
     @Override
     public void onCreate(){

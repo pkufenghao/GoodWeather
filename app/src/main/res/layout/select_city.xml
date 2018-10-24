@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/title_top"
         android:layout_width="fill_parent"
         android:layout_height="45.0dp"
         android:background="#ffcd2626">
@@ -12,7 +13,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:text="当前城市：北京"
+            android:text="选择城市：        "
             android:textColor="#ffffffff"
             android:textSize="20.0dp"/>
         <ImageView
@@ -30,6 +31,62 @@
             android:layout_toRightOf="@+id/title_back"
             android:background="#A71717"
             android:gravity="center"/>
+
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/title_search_city"
+        android:layout_width="fill_parent"
+        android:layout_height="45.0dp"
+        android:layout_below="@+id/title_top">
+
+        <ImageView
+            android:id="@+id/search_city"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2.0dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/contact_search_box_edittext_keyword_background" />
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10.0dp"
+            android:layout_width="25.0dp"
+            android:layout_height="25.0dp"
+            android:src="@drawable/magnifying_glass" />
+        <TextView
+            android:id="@+id/input_search"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/search_icon"
+            android:layout_margin="12.0dp"
+            android:hint="搜索城市"
+            android:textColor="#ff000000"
+            android:textSize="15.0dp"
+            android:textColorHint="#ffcccccc"/>
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@+id/title_search_city"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+        </ListView>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
 
 </RelativeLayout>

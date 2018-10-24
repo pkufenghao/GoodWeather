@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private ImageView mCitySelect;
 
     private TextView cityTv, timeTv, humidityTv, weekTv, pmDateTv, pmQualtyTv,
-            temperatureTv, climateTv, windTv, city_name_Tv;
+            temperatureTv, climateTv, windTv, city_name_Tv,temperature_infoTv;
     private ImageView weatherImg, pmImg;
 
     private Handler mHandler = new Handler() {
@@ -135,7 +135,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 fengliCount++;
                             } else if (xmlPullParser.getName().equals("date") && dateCount == 0) {
                                 eventType = xmlPullParser.next();
-                                todayWeather.setDate(xmlPullParser.getText());
+                                todayWeather.setDate(xmlPullParser.getText().substring(3).trim());
                                 Log.d("myWeather", "date: " + xmlPullParser.getText());
                                 dateCount++;
                             } else if (xmlPullParser.getName().equals("high") && highCount == 0) {
@@ -274,6 +274,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         pmQualtyTv = (TextView) findViewById(R.id.pm2_5_quality);
         pmImg = (ImageView) findViewById(R.id.pm2_5_img);
         temperatureTv = (TextView) findViewById(R.id.temperature);
+        temperature_infoTv = (TextView)findViewById(R.id.temperature_info);
         climateTv = (TextView) findViewById(R.id.climate);
         windTv = (TextView) findViewById(R.id.wind);
         weatherImg = (ImageView) findViewById(R.id.weather_img);
@@ -286,6 +287,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         pmDateTv.setText("N/A");
         weekTv.setText("N/A");
         temperatureTv.setText("N/A");
+        temperature_infoTv.setText("N/A");
         climateTv.setText("N/A");
         windTv.setText("N/A");
     }
@@ -294,10 +296,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         city_name_Tv.setText(todayWeather.getCity() + "天气");
         cityTv.setText(todayWeather.getCity());
         timeTv.setText(todayWeather.getUpdatetime() + "发布");
+        temperature_infoTv.setText("温度:" + todayWeather.getWendu() + "℃");
         humidityTv.setText("湿度:" + todayWeather.getShidu());
         pmDateTv.setText(todayWeather.getPm25());
         pmQualtyTv.setText(todayWeather.getQuality());
-        weekTv.setText(todayWeather.getDate());
+        weekTv.setText("今天" + todayWeather.getDate());
         temperatureTv.setText(todayWeather.getHigh() + "~" + todayWeather.getLow());
         climateTv.setText(todayWeather.getType());
         windTv.setText("风力:" + todayWeather.getFengxiang() + todayWeather.getFengli());
