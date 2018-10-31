@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,11 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
 
     private static final int UPDATE_TODAY_WEATHER = 1;                      //更新天气变量
 
-    private ImageView mUpdateBtn;                                           //更新天气按钮
+    private  String newCityCode;
+
+    private ImageView mUpdateBtn,mLocation;                                           //更新天气按钮
+
+    private ImageView mprogressBar;
 
     private ImageView mCitySelect;                                          //选择城市按钮
 
@@ -58,6 +63,13 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
 
         mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);   //初始化更新按钮
         mUpdateBtn.setOnClickListener(this);                            //为更新按钮添加监听事件
+
+        mLocation = (ImageView)findViewById(R.id.title_location);
+        mLocation.setOnClickListener(this);
+
+        mprogressBar = (ImageView)findViewById(R.id.title_update_progressbar);
+       // mprogressBar.setOnClickListener(this);
+
 
         if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {//检测网络函数
             Log.d("myWeather", "Internet OK");                    //网络OK
@@ -177,6 +189,7 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
 
 
     private void queryWeatherCode(String cityCode) {    //请求天气更新
+
         final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey=" + cityCode;//网址
         Log.d("myWeather", address);
         new Thread(new Runnable() {
@@ -221,6 +234,10 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
         }).start();
     }
 
+    public float getInterpolation(float input) {
+        return input;
+    }
+
     @Override
     public void onClick(View view) {                //按钮监听事件
 
@@ -228,16 +245,22 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
             Intent i = new Intent(this,SelectCity.class);
             startActivityForResult(i,1);
         }
+        if (view.getId() == R.id.title_location){
+            mprogressBar.setVisibility(view.VISIBLE);
+        }
 
         if (view.getId() == R.id.title_update_btn) {     //更新天气按钮
 
+            mUpdateBtn.setVisibility(view.GONE);
+
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-            String cityCode = sharedPreferences.getString("main_city_code", "101010100");//获取城市代码
-            Log.d("myWeather", cityCode);
+            //String cityCode = sharedPreferences.getString("main_city_code", "101010100");//获取城市代码
+            //Log.d("myWeather", cityCode);
 
             if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {        //获取网络状态
                 Log.d("goodweather", "Internet OK");
-                queryWeatherCode(cityCode);                                             //网络OK，请求获取城市代码
+                mprogressBar.setVisibility(view.VISIBLE);
+                queryWeatherCode(newCityCode);                                             //网络OK，请求获取城市代码
                 Toast.makeText(MainActivity.this, "Internet OK", Toast.LENGTH_LONG).show();
             } else {
                 Log.d("goodweather", "Internet Error");                      //无网络
@@ -248,7 +271,7 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
 
     protected void onActivityResult(int requestCode,int resultCode, Intent data){//利用意图获取城市代码
         if (requestCode == 1 && resultCode == RESULT_OK){
-            String newCityCode= data.getStringExtra("cityCode");            //获取城市代码
+            newCityCode= data.getStringExtra("cityCode");            //获取城市代码
             Log.d("myWeather","选择的城市代码为"+newCityCode);
 
             if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {  //网络状态
@@ -293,6 +316,9 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
     }
 
     void updateTodayWeather(TodayWeather todayWeather) {    //更新今日天气
+        mprogressBar.setVisibility(View.GONE);
+        mUpdateBtn.setVisibility(View.VISIBLE);
+        //setContentView(R.layout.weather_info);
         city_name_Tv.setText(todayWeather.getCity() + "天气");               //设置顶部城市
         cityTv.setText(todayWeather.getCity());                             //设置城市
         timeTv.setText(todayWeather.getUpdatetime() + "发布");              //设置更新时间

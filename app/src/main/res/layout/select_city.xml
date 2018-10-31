@@ -37,36 +37,35 @@
     <RelativeLayout
         android:id="@+id/title_search_city"
         android:layout_width="fill_parent"
-        android:layout_height="45.0dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/title_top">
 
-        <ImageView
-            android:id="@+id/search_city"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2.0dp"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/contact_search_box_edittext_keyword_background" />
-        <ImageView
-            android:id="@+id/search_icon"
-            android:layout_alignParentLeft="true"
-            android:layout_margin="10.0dp"
-            android:layout_width="25.0dp"
-            android:layout_height="25.0dp"
-            android:src="@drawable/magnifying_glass" />
-        <TextView
-            android:id="@+id/input_search"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/search_icon"
-            android:layout_margin="12.0dp"
-            android:hint="搜索城市"
-            android:textColor="#ff000000"
-            android:textSize="15.0dp"
-            android:textColorHint="#ffcccccc"/>
+     <EditText
+         android:id="@+id/search_edit"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:hint="搜索城市"
+         android:layout_centerVertical="true"
+         android:layout_marginBottom="6.0dip"
+         android:layout_marginLeft="10.0dip"
+         android:layout_marginRight="10.0dip"
+         android:layout_marginTop="6.0dip"
+         android:drawableLeft="@drawable/biz_news_column_subscribe_search_icon"
+         android:drawablePadding="6.0dp"
+         android:ellipsize="none"
+         android:paddingBottom="6.0dip"
+         android:paddingLeft="8.0dip"
+         android:paddingRight="30.0dip"
+         android:paddingTop="6.0dip"
+         android:singleLine="true"
+         android:background="@drawable/base_search_edittext_bg"
+         android:textColor="#ff000000"
+         android:textColorHint="#ffcccccc"
+         android:textSize="15.0dp"/>
 
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_below="@+id/title_search_city"
         android:layout_width="fill_parent"
