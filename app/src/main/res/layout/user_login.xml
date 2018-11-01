@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="登录"
+        android:textColor="#5050ff"
+        android:textSize="30dp"
+        android:gravity="center"/>
+
+    <View
+        android:id="@+id/login_xiantiao"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <RelativeLayout
+        android:id="@+id/login_tubiao"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/login_xiantiao">
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="100dp"
+            android:src="@drawable/login_app"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

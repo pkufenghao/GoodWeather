@@ -34,9 +34,13 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
 
     private  String newCityCode;
 
-    private ImageView mUpdateBtn,mLocation;                                           //更新天气按钮
+    private ImageView mUpdateBtn;                                         //更新天气按钮
 
-    private ImageView mprogressBar;
+    private ImageView mShare;                                             //分享按钮
+
+    private ImageView mLocation;                                            //定位按钮
+
+    private ImageView mprogressBar;                                         //环形进度条
 
     private ImageView mCitySelect;                                          //选择城市按钮
 
@@ -66,6 +70,9 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
 
         mLocation = (ImageView)findViewById(R.id.title_location);
         mLocation.setOnClickListener(this);
+
+        mShare = (ImageView)findViewById(R.id.title_share);
+        mShare.setOnClickListener(this);
 
         mprogressBar = (ImageView)findViewById(R.id.title_update_progressbar);
        // mprogressBar.setOnClickListener(this);
@@ -247,19 +254,25 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
         }
         if (view.getId() == R.id.title_location){
             mprogressBar.setVisibility(view.VISIBLE);
+            mUpdateBtn.setVisibility(view.GONE);
         }
+        if (view.getId() == R.id.title_share){
+            Intent j = new Intent(this,LoginActivity.class);
+            startActivity(j);
+        }
+
 
         if (view.getId() == R.id.title_update_btn) {     //更新天气按钮
 
             mUpdateBtn.setVisibility(view.GONE);
-
+            mprogressBar.setVisibility(view.VISIBLE);
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
             //String cityCode = sharedPreferences.getString("main_city_code", "101010100");//获取城市代码
             //Log.d("myWeather", cityCode);
 
             if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {        //获取网络状态
                 Log.d("goodweather", "Internet OK");
-                mprogressBar.setVisibility(view.VISIBLE);
+                //mprogressBar.setVisibility(view.VISIBLE);
                 queryWeatherCode(newCityCode);                                             //网络OK，请求获取城市代码
                 Toast.makeText(MainActivity.this, "Internet OK", Toast.LENGTH_LONG).show();
             } else {
@@ -318,7 +331,6 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
     void updateTodayWeather(TodayWeather todayWeather) {    //更新今日天气
         mprogressBar.setVisibility(View.GONE);
         mUpdateBtn.setVisibility(View.VISIBLE);
-        //setContentView(R.layout.weather_info);
         city_name_Tv.setText(todayWeather.getCity() + "天气");               //设置顶部城市
         cityTv.setText(todayWeather.getCity());                             //设置城市
         timeTv.setText(todayWeather.getUpdatetime() + "发布");              //设置更新时间

@@ -13,7 +13,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:text="选择城市：        "
+            android:text=""
             android:textColor="#ffffffff"
             android:textSize="20.0dp"/>
         <ImageView
@@ -75,7 +75,8 @@
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            >
         </ListView>
 
     </RelativeLayout>
