@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dp"
+        android:background="@android:color/holo_blue_light">
+
+        <TextView
+            android:id="@+id/reg_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="立即注册"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/reg_back"
+            android:layout_width="45.0dp"
+            android:layout_height="45.0dp"
+            android:src="@drawable/base_action_bar_back_normal"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"/>
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>
