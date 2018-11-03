@@ -13,7 +13,7 @@ public class RegActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_reg);
+        setContentView(R.layout.welcome_activity);
 
         regback = (ImageView)findViewById(R.id.reg_back);
         regback.setOnClickListener(this);

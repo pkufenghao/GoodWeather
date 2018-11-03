@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/weicome_img"
+        android:layout_width="360dp"
+        android:layout_height="440dp"
+        android:layout_gravity="center"
+        android:src="@drawable/welcome_background1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/product_img"
+            android:layout_width="90.0dp"
+            android:layout_height="60.0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/login_app" />
+
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@+id/product_img"
+            android:text="EasyWeather"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@+id/product_img"
+            android:layout_below="@+id/product_name"
+            android:text="pkufenghao.top.cn"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="©copyright 2018 soul科技"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10sp" />
+
+
+
+
+
+</LinearLayout>

@@ -134,6 +134,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                 //finish();
                 break;
             case R.id.login_qq:
+
                 break;
             case R.id.login_weibo:
                 break;
