@@ -32,7 +32,15 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
 
     private static final int UPDATE_TODAY_WEATHER = 1;                      //更新天气变量
 
-    private  String newCityCode;
+    private  String newCityCode;                                            //城市代码
+
+    private String thisCityCode;                                                //当前城市
+
+    private Boolean isFirstUsed;                                            //是否为第一次使用
+
+    private SharedPreferences used_sp;                                     //存储使用信息
+
+    private SharedPreferences.Editor editor;                                //编辑信息
 
     private ImageView mUpdateBtn;                                         //更新天气按钮
 
@@ -65,17 +73,17 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_info);                          //设置布局文件
 
-        mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);   //初始化更新按钮
-        mUpdateBtn.setOnClickListener(this);                            //为更新按钮添加监听事件
+        initEvents();
+        //////正常情况注释下面两行
+        editor.putBoolean("isFirstUsed", true);
+        editor.commit();
 
-        mLocation = (ImageView)findViewById(R.id.title_location);
-        mLocation.setOnClickListener(this);
-
-        mShare = (ImageView)findViewById(R.id.title_share);
-        mShare.setOnClickListener(this);
-
-        mprogressBar = (ImageView)findViewById(R.id.title_update_progressbar);
-       // mprogressBar.setOnClickListener(this);
+        if (isFirstUsed){
+            initView();                                 //第一次使用初始化
+        }else{
+            //initView();
+            queryWeatherCode(used_sp.getString("thisCityCode","default"));//之后更新天气
+        }
 
 
         if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {//检测网络函数
@@ -86,10 +94,49 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
             Toast.makeText(MainActivity.this, "Internet Error", Toast.LENGTH_LONG).show();
         }
 
+
+                                                               //初始化布局
+    }
+
+    private void  initEvents(){
+
+        city_name_Tv = (TextView) findViewById(R.id.title_city_name);       //初始化城市名称
+        cityTv = (TextView) findViewById(R.id.city);                        //初始化城市
+        timeTv = (TextView) findViewById(R.id.time);                        //初始化更新时间
+        humidityTv = (TextView) findViewById(R.id.humidity);                //初始化湿度
+        weekTv = (TextView) findViewById(R.id.week_today);                  //初始化日期
+        pmDateTv = (TextView) findViewById(R.id.pm_data);                   //初始化pm25
+        pmQualtyTv = (TextView) findViewById(R.id.pm2_5_quality);           //初始化空气质量
+        pmImg = (ImageView) findViewById(R.id.pm2_5_img);                   //初始化pm25图片
+        temperatureTv = (TextView) findViewById(R.id.temperature);          //初始化温度
+        temperature_infoTv = (TextView)findViewById(R.id.temperature_info); //初始化天气信息
+        climateTv = (TextView) findViewById(R.id.climate);                  //初始化天气情况
+        windTv = (TextView) findViewById(R.id.wind);                        //初始化风力
+        weatherImg = (ImageView) findViewById(R.id.weather_img);            //初始化天气图片
+
+        mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);   //初始化更新按钮
+        mUpdateBtn.setOnClickListener(this);                            //为更新按钮添加监听事件
+
+        mLocation = (ImageView)findViewById(R.id.title_location);
+        mLocation.setOnClickListener(this);
+
+        mShare = (ImageView)findViewById(R.id.title_share);
+        mShare.setOnClickListener(this);
+
         mCitySelect = (ImageView) findViewById(R.id.title_city_manager);    //初始化城市选择按钮
         mCitySelect.setOnClickListener(this);                               //为按钮添加监听事件
 
-        initView();                                                         //初始化布局
+
+        mprogressBar = (ImageView)findViewById(R.id.title_update_progressbar);
+        // mprogressBar.setOnClickListener(this);
+
+        used_sp = getSharedPreferences("UsedInfo", 0);
+
+        isFirstUsed = used_sp.getBoolean("isFirstUsed", true);
+        //thisCityCode = used_sp.getString("thisCityCode","default");
+
+        //实例化Editor对象
+        editor = used_sp.edit();
     }
 
     private TodayWeather parseXML(String xmldata) {                         //XML 解析函数
@@ -154,7 +201,7 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
                                 fengliCount++;
                             } else if (xmlPullParser.getName().equals("date") && dateCount == 0) {          //解析日期
                                 eventType = xmlPullParser.next();
-                                todayWeather.setDate(xmlPullParser.getText().substring(3).trim());
+                                todayWeather.setDate(xmlPullParser.getText());
                                 Log.d("myWeather", "date: " + xmlPullParser.getText());
                                 dateCount++;
                             } else if (xmlPullParser.getName().equals("high") && highCount == 0) {          //解析高温
@@ -257,8 +304,8 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
             mUpdateBtn.setVisibility(view.GONE);
         }
         if (view.getId() == R.id.title_share){
-            Intent j = new Intent(this,LoginActivity.class);
-            startActivity(j);
+           // Intent j = new Intent(this,LoginActivity.class);
+            //startActivity(j);
         }
 
 
@@ -274,10 +321,10 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
                 Log.d("goodweather", "Internet OK");
                 //mprogressBar.setVisibility(view.VISIBLE);
                 queryWeatherCode(newCityCode);                                             //网络OK，请求获取城市代码
-                Toast.makeText(MainActivity.this, "Internet OK", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Internet OK", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d("goodweather", "Internet Error");                      //无网络
-                Toast.makeText(MainActivity.this, "Internet Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Internet Error", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -288,12 +335,18 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
             Log.d("myWeather","选择的城市代码为"+newCityCode);
 
             if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {  //网络状态
-                Log.d("goodweather", "Internet OK");                    //网络OK
+                Log.d("goodweather", "Internet OK");//网络OK
                 queryWeatherCode(newCityCode);
-                Toast.makeText(MainActivity.this, "Internet OK", Toast.LENGTH_LONG).show();
+                //存入数据
+                editor.putBoolean("isFirstUsed", false);
+                //editor.putString("thisCityCode",newCityCode);
+                //提交修改
+                editor.commit();
+                Toast.makeText(MainActivity.this, "Internet OK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "thisCityCode:"+newCityCode, Toast.LENGTH_SHORT).show();
             } else {
                 Log.d("goodweather", "Internet Error");                 //网络错误
-                Toast.makeText(MainActivity.this, "Internet Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Internet Error", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -301,19 +354,6 @@ public class MainActivity extends Activity implements View.OnClickListener {//�
     }
 
     void initView() {           //天气初始化函数
-        city_name_Tv = (TextView) findViewById(R.id.title_city_name);       //初始化城市名称
-        cityTv = (TextView) findViewById(R.id.city);                        //初始化城市
-        timeTv = (TextView) findViewById(R.id.time);                        //初始化更新时间
-        humidityTv = (TextView) findViewById(R.id.humidity);                //初始化湿度
-        weekTv = (TextView) findViewById(R.id.week_today);                  //初始化日期
-        pmDateTv = (TextView) findViewById(R.id.pm_data);                   //初始化pm25
-        pmQualtyTv = (TextView) findViewById(R.id.pm2_5_quality);           //初始化空气质量
-        pmImg = (ImageView) findViewById(R.id.pm2_5_img);                   //初始化pm25图片
-        temperatureTv = (TextView) findViewById(R.id.temperature);          //初始化温度
-        temperature_infoTv = (TextView)findViewById(R.id.temperature_info); //初始化天气信息
-        climateTv = (TextView) findViewById(R.id.climate);                  //初始化天气情况
-        windTv = (TextView) findViewById(R.id.wind);                        //初始化风力
-        weatherImg = (ImageView) findViewById(R.id.weather_img);            //初始化天气图片
 
         city_name_Tv.setText("N/A");                                        //默认设置城市名称
         cityTv.setText("N/A");                                              //默认设置城市

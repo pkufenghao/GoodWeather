@@ -114,7 +114,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
-            android:src="@mipmap/icon_see_pass" />
+            android:src="@mipmap/icon_see_pass"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/pw_not_eye"
@@ -125,7 +126,7 @@
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:src="@mipmap/icon_nosee_pass"
-            android:visibility="gone"/>
+            />
 
         <View
             android:layout_width="match_parent"
@@ -148,7 +149,7 @@
         android:paddingTop="5dp">
 
         <Button
-            android:id="@+id/reg_btn"
+            android:id="@+id/login_page_reg_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

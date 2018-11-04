@@ -20,6 +20,7 @@ public class WelcomeActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.welcome_activity);
         initView();
+        //延时5秒
         handler.sendEmptyMessageDelayed(0, 5000);
 
     }
@@ -29,13 +30,13 @@ public class WelcomeActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            getHome();
+            getHome();      //延时5秒进入登录界面
         }
 
     };
 
     public void getHome(){
-        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);//进入登录界面
         startActivity(intent);
         finish();
     }

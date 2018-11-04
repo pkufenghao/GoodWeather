@@ -2,6 +2,7 @@ package top.pkufenghao.goodweather;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,10 @@ public class SelectCity extends Activity implements View.OnClickListener {
     private ListView mlistView;             //列表控件
 
     private EditText mEditText;             //文本输入
+
+    private SharedPreferences select_sp;      //存储使用信息
+
+    private SharedPreferences.Editor select_ditor;//编辑信息
 
     private List<City> citylist;            //列表控件，存储城市信息
 
@@ -57,6 +63,9 @@ public class SelectCity extends Activity implements View.OnClickListener {
 
         mEditText = (EditText) findViewById(R.id.search_edit);
         mEditText.addTextChangedListener(mTextWatcher);
+
+        select_sp = getSharedPreferences("UsedInfo",0);
+        select_ditor = select_sp.edit();
 
         list_city = new ArrayList<>();
         list_allpy = new ArrayList<>();
@@ -117,10 +126,13 @@ public class SelectCity extends Activity implements View.OnClickListener {
                         i.putExtra("cityCode", city.getNumber());               //将城市代码发回主线程
                         title_city_name.setText("选择城市：" + city.getCity());        //顶部文字显示选择城市
                         setResult(RESULT_OK, i);
+                        select_ditor.putString("thisCityCode",city.getNumber());
+                        select_ditor.commit();
+                        Toast.makeText(SelectCity.this, "thisCityCode:"+city.getNumber(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SelectCity.this, "thisCityCode_sp:"+select_sp.getString("thisCityCode","default"), Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 }
-
             }
         });
 
