@@ -110,8 +110,8 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         isLogined = login_sp.getBoolean("isLogined", false);
         editor = login_sp.edit();
         /////正常情况注释下面两行
-        editor.putBoolean("isLogined", false);
-        editor.commit();
+        //editor.putBoolean("isLogined", false);
+        //editor.commit();
 
         /**
          *如果用户注册则跳转到主页面

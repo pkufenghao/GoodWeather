@@ -31,7 +31,7 @@ public class SplashActivity extends Activity{
         //实例化Editor对象
         SharedPreferences.Editor editor = preferences.edit();
         /////正常情况为false
-        editor.putBoolean("isFirstUse", true);
+        editor.putBoolean("isFirstUse", false);
         //提交修改
         editor.commit();
     }

@@ -21,7 +21,7 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.welcome_activity);
         initView();
         //延时5秒
-        handler.sendEmptyMessageDelayed(0, 5000);
+        handler.sendEmptyMessageDelayed(0, 2000);
 
     }
 

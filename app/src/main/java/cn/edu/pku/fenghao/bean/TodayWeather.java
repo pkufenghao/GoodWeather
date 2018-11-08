@@ -76,9 +76,8 @@ public class TodayWeather {             //今日天气
     public void setPm25(String pm25){               //设置pm25
         this.pm25 = pm25;
     }
-    public void setQuality(String quality){         //设置空气质量
-        this.quality = quality;
-    }public void setFengxiang(String fengxiang){    //设置风向
+    public void setQuality(String quality){ this.quality = quality; }
+    public void setFengxiang(String fengxiang){    //设置风向
         this.fengxiang = fengxiang;
     }
     public void setFengli(String fengli){           //设置风力

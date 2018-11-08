@@ -12,6 +12,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+
 import cn.edu.pku.fenghao.bean.City;
 import cn.edu.pku.fenghao.db.CityDB;
 
@@ -33,6 +36,8 @@ public class MyApplication extends Application{        //MyApplication继承Appl
         mApplication = this;
         mCityDB = openCityDB();                          //获取数据库
         initCityList();
+
+
     }
 
     private void initCityList(){                        //初始化城市列表
