@@ -25,7 +25,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/biz_plugin_weather_baoyu"
+            android:src="@drawable/biz_plugin_weather_qing"
             android:layout_below="@+id/next_four_day_week"/>
         <TextView
             android:id="@+id/next_four_day_tem"
@@ -80,7 +80,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/biz_plugin_weather_leizhenyu"
+            android:src="@drawable/biz_plugin_weather_qing"
             android:layout_below="@+id/next_five_day_week"/>
         <TextView
             android:id="@+id/next_five_day_tem"

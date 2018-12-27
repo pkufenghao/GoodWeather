@@ -124,15 +124,15 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_info);                          //设置布局文件
 
-        mLocationClient = new LocationClient(getApplicationContext());
-        mLocationClient.registerLocationListener(myListener);
+        //mLocationClient = new LocationClient(getApplicationContext());
+        //mLocationClient.registerLocationListener(myListener);
         init_more_weather();
         initLocation();
         initEvents();
         initDots();
         mLocationClient.start();
         //////正常情况注释下面两行
-        editor.putBoolean("isFirstUsed", true);
+        editor.putBoolean("isFirstUsed", false);
         editor.commit();
 
         if (isFirstUsed) {
@@ -209,9 +209,9 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
         option.setIsNeedAddress(true);
         option.setOpenGps(true);
 
-        //mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.setLocOption(option);
-       // mLocationClient.registerLocationListener(myListener);
+        mLocationClient.registerLocationListener(myListener);
     }
 
 
@@ -637,21 +637,8 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
                 }
                 break;
             case R.id.title_location:
-                //if(mLocationClient.isStarted()){
-                //    mLocationClient.stop();
-                //}
-                //mLocationClient.start();
+               // mLocationClient.start();
                 if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {        //获取网络状态
-                   //MyApplication myApplication;
-                   // myApplication = MyApplication.getInstance();
-                    //mCityList = myApplication.getCityList();
-                    //for(City city:mCityList){
-                   //     String locaationCityName=cityName.toString();
-                   //     if(city.getCity().equals(locaationCityName.substring(0,locaationCityName.length()-1))){
-                   //         mLocCityCode=city.getNumber();
-                   //         break;
-                   //     }
-                   // }
                     queryWeatherCode(myListener.reCityCode());
                     Toast.makeText(MainActivity.this, "当前所在城市："+myListener.getLocation(), Toast.LENGTH_SHORT).show();
                 } else {

@@ -32,7 +32,6 @@
             android:value="u0IW74fH6Ax2aNdyYKjNf0Wzu3E8AtOd">
 
         </meta-data>
-
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
