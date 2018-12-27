@@ -39,6 +39,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.pku.fenghao.app.MyApplication;
+import cn.edu.pku.fenghao.bean.City;
 import cn.edu.pku.fenghao.bean.TodayWeather;
 import cn.edu.pku.fenghao.util.NetUtil;
 
@@ -74,6 +76,12 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
     public LocationClient mLocationClient = null;
 
     private MyLocationListener myListener = new MyLocationListener();
+
+    private String cityName;
+
+    private String mLocCityCode;
+
+    private List<City> mCityList;
 
     private ImageView[] dots;
 
@@ -116,12 +124,13 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_info);                          //设置布局文件
 
-        //mLocationClient = new LocationClient(getApplicationContext());
-        // mLocationClient.registerLocationListener(myListener);
+        mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient.registerLocationListener(myListener);
         init_more_weather();
-        //initLocation();
+        initLocation();
         initEvents();
         initDots();
+        mLocationClient.start();
         //////正常情况注释下面两行
         editor.putBoolean("isFirstUsed", true);
         editor.commit();
@@ -186,59 +195,26 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
 
     }
 
+    private void requestLocation(){
+        initLocation();
+        mLocationClient.start();
+    }
 
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
-
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//可选，设置定位模式，默认高精度
-//LocationMode.Hight_Accuracy：高精度；
-//LocationMode. Battery_Saving：低功耗；
-//LocationMode. Device_Sensors：仅使用设备；
 
-        option.setCoorType("bd09ll");
-//可选，设置返回经纬度坐标类型，默认GCJ02
-//GCJ02：国测局坐标；
-//BD09ll：百度经纬度坐标；
-//BD09：百度墨卡托坐标；
-//海外地区定位，无需设置坐标类型，统一返回WGS84类型坐标
-        int span = 1000;
-        option.setScanSpan(span);
-//可选，设置发起定位请求的间隔，int类型，单位ms
-//如果设置为0，则代表单次定位，即仅定位一次，默认为0
-//如果设置非0，需设置1000ms以上才有效
+        option.setCoorType("BD09ll");
+        option.setScanSpan(1000);
         option.setIsNeedAddress(true);
-
         option.setOpenGps(true);
-//可选，设置是否使用gps，默认false
-//使用高精度和仅用设备两种定位模式的，参数必须设置为true
 
-        option.setLocationNotify(true);
-//可选，设置是否当GPS有效时按照1S/1次频率输出GPS结果，默认false
-        option.setIsNeedLocationDescribe(true);
-        option.setIsNeedLocationPoiList(true);
-
-        option.setIgnoreKillProcess(false);
-//可选，定位SDK内部是一个service，并放到了独立进程。
-//设置是否在stop的时候杀死这个进程，默认（建议）不杀死，即setIgnoreKillProcess(true)
-
-        option.SetIgnoreCacheException(false);
-//可选，设置是否收集Crash信息，默认收集，即参数为false
-
-        //option.setWifiCacheTimeOut(5 * 60 * 1000);
-//可选，V7.2版本新增能力
-//如果设置了该接口，首次启动定位时，会先判断当前Wi-Fi是否超出有效期，若超出有效期，会先重新扫描Wi-Fi，然后定位
-
-        option.setEnableSimulateGps(false);
-//可选，设置是否需要过滤GPS仿真结果，默认需要，即参数为false
-
+        //mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.setLocOption(option);
-        mLocationClient = new LocationClient(getApplicationContext());
-        mLocationClient.registerLocationListener(myListener);
-//mLocationClient为第二步初始化过的LocationClient对象
-//需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-//更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
+       // mLocationClient.registerLocationListener(myListener);
     }
+
+
 
     private void initEvents() {
 
@@ -315,6 +291,8 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
 
         //实例化Editor对象
         editor = used_sp.edit();
+        //mLocationClient = new LocationClient(this);
+        //mLocationClient.registerLocationListener(myListener);
     }
 
     private TodayWeather parseXML(String xmldata) {                         //XML 解析函数
@@ -659,22 +637,23 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
                 }
                 break;
             case R.id.title_location:
-                mUpdateBtn.setVisibility(view.GONE);
-                mprogressBar.setVisibility(view.VISIBLE);
-
-                if (mLocationClient.isStarted()) {
-                    mLocationClient.stop();
-                }
-                mLocationClient.start();
-
-
+                //if(mLocationClient.isStarted()){
+                //    mLocationClient.stop();
+                //}
+                //mLocationClient.start();
                 if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {        //获取网络状态
-                    Log.d("goodweather", "Internet OK");
-                    //mprogressBar.setVisibility(view.VISIBLE);
+                   //MyApplication myApplication;
+                   // myApplication = MyApplication.getInstance();
+                    //mCityList = myApplication.getCityList();
+                    //for(City city:mCityList){
+                   //     String locaationCityName=cityName.toString();
+                   //     if(city.getCity().equals(locaationCityName.substring(0,locaationCityName.length()-1))){
+                   //         mLocCityCode=city.getNumber();
+                   //         break;
+                   //     }
+                   // }
                     queryWeatherCode(myListener.reCityCode());
-                    Toast.makeText(MainActivity.this, newCityCode, Toast.LENGTH_SHORT).show();
-                    //网络OK，请求获取城市代码
-                    Toast.makeText(MainActivity.this, "Internet OK", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "当前所在城市："+myListener.getLocation(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("goodweather", "Internet Error");                      //无网络
                     Toast.makeText(MainActivity.this, "Internet Error", Toast.LENGTH_SHORT).show();
@@ -725,18 +704,7 @@ public class MainActivity extends Activity implements View.OnClickListener,ViewP
         windTv.setText("N/A");                                              //默认设置风力
     }
 
-    void updateWeather() {
 
-        //inflater = LayoutInflater.from(this);
-        //views = new ArrayList<View>();
-        //nextdate.setText("nnnnn");
-        views.add(inflater.inflate(R.layout.more_weather_1, null));
-        views.add(inflater.inflate(R.layout.more_weather_2, null));
-        ///updateForcastWeather();
-        vpAdapter = new ViewPagerAdapter(views, this);
-        vpAdapter.notifyDataSetChanged();
-        vp.setAdapter(vpAdapter);
-    }
 
     void updateTodayWeather(TodayWeather todayWeather) {    //更新今日天气
         mprogressBar.setVisibility(View.GONE);
